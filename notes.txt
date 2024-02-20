@@ -1,0 +1,49 @@
+- made the sha256 file
+- created the string_to_bits function
+    - learned a bit about ord to bin and then the zfill
+- Now I have the string to binary so I can work on the functions
+
+Circular Right Shift
+- Tried to run the circular_right_shift but forgot to put in the input vars, lol
+- I have a for loop that appends the last digit to the front of the input
+- It can be quicker to just do all the n bits at once but this works for the case where n > len(A)
+    - maybe I could just make this a condition?
+- got it working after realizing I was just removing and then readding the same number
+- I made this look really sexy quite quickly wow
+
+Right Shift
+- sometimes python just works lol, the '0'*n I was unsure of
+
+Concat
+- this is super simple but is in th code for storytelling purposes
+
+- pretty sure this can be all done in bin vars but I will change the scope so that I intended to work in strings...
+
+bool Operators
+AND, XOR, OR
+- added a pad inputs helper function once I realized there was repeat code
+
+int_add_trunc
+- this is a fun one because its such a werid way of doing this operation
+- I fully destroyed this function lol. It started as massive if else statements
+    - then I realized that if all three entries are the same, the r and carry_over are also the same
+    - simlified using the max func just to realize that it would also work if all vars are the same
+    - crazy how small the function got
+
+- Calcing the K cube root is kind of hard
+    - but I guess I need to multiple the factional part by 2^32
+    - this was hard to understand to multiply by 2^32 should look into later
+
+Get Block Decomp
+- just realized it was recursive so I will make one method to get all the blocks at once
+
+
+11001110001000001011010001111110
+00111010011011111110011001100111
+00001000100100001001101011100101
+
+The only issue with the code was the int_add_trunc. I guess I wasn't doing enough loops... I'll have to see
+why that wasn't caught in testing! This is thanks to the RedBlockBlue channel because he showed the right 
+solution to T2 which was failing for me. This fixed my trunc
+
+Its funny the errors that can slip through. It turns out {len(A)+1 % 512} != {(len(A)+1) % 512} remember bedmas lol
