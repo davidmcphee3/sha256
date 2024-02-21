@@ -1,8 +1,10 @@
 
 class SHA256():
-    def __init__(self, input_str: str):
+    def __init__(self, input_str: str, result_type = 1):
         self.input_str = input_str
+        self.result_type = result_type
         self.prime_numbers = self.get_prime_numbers(64)
+        
 
     def get_prime_numbers(self, i: int) -> list[str]:
         prime_numbers = []
@@ -91,7 +93,8 @@ class SHA256():
             if i < 16:
                 W[i] = M[i*32:(i+1)*32]
             else:
-                W[i] = self.add_trunc([self.s1(W[i-2]), W[i-7], self.s0(W[i-15]), W[i-16]])
+                W[i] = self.add_trunc([self.s1(W[i-2]), W[i-7], 
+                                       self.s0(W[i-15]), W[i-16]])
         return W
     
     def H0i(self, i: int) -> str:
@@ -99,11 +102,13 @@ class SHA256():
         return bin(result)[2:].zfill(32)
 
     def hash_comp(self, M: str) -> str:
-        prev_H = [self.H0i(0), self.H0i(1), self.H0i(2), self.H0i(3), self.H0i(4), self.H0i(5), self.H0i(6), self.H0i(7)]
+        prev_H = [self.H0i(0), self.H0i(1), self.H0i(2), self.H0i(3), 
+                  self.H0i(4), self.H0i(5), self.H0i(6), self.H0i(7)]
         for i in range(0,len(M),512):
             Mi = M[i:i+512]
             W = self.get_block_decomp(Mi)
-            a, b, c, d, e, f, g, h = prev_H[0], prev_H[1], prev_H[2], prev_H[3], prev_H[4], prev_H[5], prev_H[6], prev_H[7]
+            a, b, c, d = prev_H[0], prev_H[1], prev_H[2], prev_H[3] 
+            e, f, g, h = prev_H[4], prev_H[5], prev_H[6], prev_H[7]
             for j in range(64):
                 T1 = self.add_trunc([h, self.S1(e), self.ch(e,f,g), self.Ki(j), W[j]])
                 T2 = self.add_trunc([self.S0(a), self.maj(a,b,c)])
@@ -125,7 +130,8 @@ class SHA256():
                       self.add_trunc([prev_H[6],g]),
                       self.add_trunc([prev_H[7],h])]
             
-        return  prev_H[0] + prev_H[1] + prev_H[2] + prev_H[3] + prev_H[4] + prev_H[5] + prev_H[6] + prev_H[7]
+        return  prev_H[0] + prev_H[1] + prev_H[2] + prev_H[3] + \
+                prev_H[4] + prev_H[5] + prev_H[6] + prev_H[7]
 
     def bin_to_hex(self, A: str) -> str:
         return (hex(int(A,2))[2:]).zfill(64)
@@ -134,10 +140,13 @@ class SHA256():
         A = self.str_to_bin(self.input_str)
         M = self.pad_msg(A)
         bin_result = self.hash_comp(M)
-        return self.bin_to_hex(bin_result)
+        return self.bin_to_hex(bin_result) if self.result_type else bin_result
 
 if __name__ == "__main__":
-    sha256 = SHA256(input_str = 'abc')
-    print(sha256.get_hash())
+    while True:
+        input_str = input("input_str:")
+        result_type = input("result_type: hex (0) binary (1):")
+        sha256 = SHA256(input_str = input_str, result_type= result_type)
+        print(sha256.get_hash())
 
     
