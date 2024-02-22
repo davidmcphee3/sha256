@@ -14,13 +14,8 @@ Circular Right Shift
 Right Shift
 - sometimes python just works lol, the '0'*n I was unsure of
 
-Concat
-- this is super simple but is in th code for storytelling purposes
-
-- pretty sure this can be all done in bin vars but I will change the scope so that I intended to work in strings...
-
 bool Operators
-AND, XOR, OR
+AND, XOR
 - added a pad inputs helper function once I realized there was repeat code
 
 int_add_trunc
